@@ -16,6 +16,8 @@ class Checker {
 };
 
 bool equals(std::vector<std::string> &lhs, std::vector<std::string> &rhs) {
+    if (lhs.size() != rhs.size())
+        return false;
     for (uint i = 0; i < lhs.size(); i++)
         if (lhs[i] != rhs[i])
             return false;
@@ -28,9 +30,39 @@ void print(std::vector<std::string> v) {
     std::cout << std::endl;
 }
 
+void print(std::vector<Node*> v) {
+    for (Node* n: v) {
+        std::string p = n->parent != nullptr ? n->parent->get() : "."; 
+        std::string l = n->left != nullptr ? n->left->get() : "."; 
+        std::string r = n->right != nullptr ? n->right->get() : "."; 
+        std::cout << n->get() << "=" << p << "(" << l << n->height << r << ")" << std::endl;
+    }
+    std::cout << std::endl;
+}
+
 int main() {
     Checker c;
     std::vector<std::string> v, test;
+
+    // AVL tree = AVL();
+    // tree.insert("h");
+    // tree.insert("e");
+    // tree.insert("l");
+    // tree.insert("l");
+    // tree.insert("o");
+    // tree.insert("w");
+    // tree.insert("o");
+    // tree.insert("r");
+    // tree.insert("l");
+    // tree.insert("d");
+    // print(tree.postorder_nodes());
+    // tree.remove("h");
+    // print(tree.postorder_nodes());
+    // tree.remove("o");
+    // tree.remove("d");
+    // print(tree.postorder_nodes());
+
+
     v.push_back("a");
     v.push_back("b");
     v.push_back("c");
@@ -48,37 +80,42 @@ int main() {
     c.check(tree.contains("k") == true);  //5
     c.check(tree.is_empty() == false);    //6
     c.check((tree.size() == 1) == true); // 7
-    print(tree.inorder());
     c.check(tree.insert("a") == true); // 8
-    print(tree.inorder());
     c.check(tree.insert("b") == true); // 9
-    print(tree.inorder());
     c.check(tree.insert("c") == true);    // 10
-    print(tree.inorder());
     c.check(tree.insert("d") == true);    // 11
-    print(tree.inorder());
     c.check(tree.insert("e") == true); // 12
-    print(tree.inorder());
     c.check(tree.insert("f") == true);    // 13
-    print(tree.inorder());
     c.check(tree.insert("g") == true);    // 14
-    print(tree.inorder());
     c.check(tree.insert("h") == true);      // 15
-    print(tree.inorder());
     c.check((tree.size() == 9) == true); // 16
-    print(tree.inorder());
     test = tree.inorder();
     c.check(equals(test, v) == true);   // 17
-    c.check(tree.remove("p") == false); // 18
+    c.check(tree.contains("p") == false); // 18
+    c.check(tree.find("p") == nullptr); // 19
+    c.check(tree.remove("p") == false); // 20
     test = tree.inorder();
-    c.check(equals(test, v) == true);     // 19
-    c.check(tree.contains("f") == true);  // 20
-    c.check(tree.remove("f") == true);    // 21
-    c.check(tree.contains("f") == false); //22
+    c.check(equals(test, v) == true);     // 21
+    c.check(tree.contains("f") == true);  // 22
+    c.check(tree.remove("f") == true);    // 23
+    c.check(tree.contains("f") == false); //24
     test = tree.inorder(); 
     v.erase(v.begin() + 5); 
-    c.check(equals(test, v) == true);     //23
-    
+    c.check(equals(test, v) == true);     //25
+    c.check(tree.remove("a") == true);  // 26
+    c.check(tree.remove("b") == true);  // 27
+    v.erase(v.begin());
+    v.erase(v.begin());
+    c.check(equals(test, v) == true);     // 28
+    print(v);
+    test = tree.inorder(); 
+    print(test);
+    c.check(tree.is_empty() == false); //39
+    std::cout << tree.size() << std::endl;
+    tree.clear();
+    c.check(tree.is_empty() == true); //30
+    std::cout << tree.size() << std::endl;
+    print(tree.inorder());
 
     return 0;
 }

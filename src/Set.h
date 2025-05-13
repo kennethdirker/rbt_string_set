@@ -4,26 +4,28 @@
 #include <iostream>
 #include <vector>
 #include <stack>
-#include "RedBlackTree.h"
+// #include "RedBlackTree.h"
+#include "AVL.h"
 
 namespace set {
    class Set {
    private:
-      rbt::RedBlackTree tree; 
+      avl::AVL tree; 
+      // rbt::RedBlackTree tree; 
       uint set_size;
 
    public:
       class RBTIterator {
          private:
             const set::Set &set;
-            const std::vector<rbt::Node*> nodes;
+            const std::vector<avl::Node*> nodes;
             uint pos;
          public:
             RBTIterator(const set::Set &set, uint pos);
             void next();
             bool operator==(const RBTIterator &rhs) const;
             bool operator!=(const RBTIterator &rhs) const;
-            std::string operator* () const { return nodes[pos]->data; }
+            std::string operator* () const { return nodes[pos]->get(); }
       };
 
       Set();
@@ -35,7 +37,8 @@ namespace set {
       bool operator==(const Set &set);
       uint size() const;
       bool is_empty() const;
-      std::vector<rbt::Node*> inorder() const;
+      std::vector<std::string> inorder() const;
+      std::vector<avl::Node*> inorder_nodes() const;
 
       RBTIterator iterator() const;
       RBTIterator iterator(uint pos) const;

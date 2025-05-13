@@ -4,8 +4,8 @@ FLAGS=-std=c++11 -Wall -O3
 
 all: main
 
-main: main.o Set.o RedBlackTree.o
-	g++ $(FLAGS) -o main main.o Set.o RedBlackTree.o
+main: main.o Set.o AVL.o
+	g++ $(FLAGS) -o main main.o Set.o AVL.o
 
 main.o: main.cpp
 	g++ $(FLAGS) -o main.o -c main.cpp

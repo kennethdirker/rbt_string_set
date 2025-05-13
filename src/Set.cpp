@@ -6,7 +6,7 @@ using namespace set;
  *  Set constructor.
  */
 Set::Set() {
-    tree = rbt::RedBlackTree();
+    tree = avl::AVL();
     set_size = 0;
 }
 
@@ -50,19 +50,18 @@ bool Set::remove(const std::string &data) {
  * Remove all elements from the set.
  */
 void Set::clear() {
-    for (auto elem: dump())
-        remove(elem);
+    tree.clear();
 }
 
 /**
  * Returns a vector containing the strings in alphabetical order.
  */
 std::vector<std::string> Set::dump() const {
-    std::vector<std::string> strings;
-    std::vector<rbt::Node*> nodes = tree.inorder();
-    for (rbt::Node* node: nodes)
-        strings.push_back(node->data);
-    return strings;
+    // std::vector<std::string> strings;
+    // std::vector<avl::Node*> nodes = tree.inorder();
+    // for (avl::Node* node: nodes)
+        // strings.push_back(node->data);
+    return tree.inorder();
 }
 
 /**
@@ -101,8 +100,12 @@ bool Set::is_empty() const {
 /**
  * Return a vector of in-order tree nodes.
  */
-std::vector<rbt::Node*> Set::inorder() const {
+std::vector<std::string> Set::inorder() const {
     return tree.inorder();
+}
+
+std::vector<avl::Node*> Set::inorder_nodes() const {
+    return tree.inorder_nodes();
 }
 
 /**
@@ -115,7 +118,7 @@ Set::RBTIterator Set::begin() const { return iterator(0); }
 Set::RBTIterator Set::end() const { return iterator(size()); }
 
 Set::RBTIterator::RBTIterator(const Set &set, uint pos) : 
-                            set(set), nodes(set.inorder()), pos(pos) {}
+                            set(set), nodes(set.inorder_nodes()), pos(pos) {}
 void Set::RBTIterator::next() { ++pos; }
 bool Set::RBTIterator::operator==(const RBTIterator &rhs) const {
     return &set == &(rhs.set) && pos == rhs.pos;
